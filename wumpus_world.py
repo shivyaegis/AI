@@ -6,7 +6,7 @@ def space(): # space function to clean code output
     print("\n")
     print("____"*15)
     print("\n")
-    time.sleep(2)
+    time.sleep(0.1)
 
 
 def matrix(): # create 6 by 6 matrix
@@ -27,14 +27,14 @@ def print_matrix(table): # print the matrix cleanly
             print(table[i][j].center(5," "), end="  |  ")
             # time.sleep(0.2)
         print("")
-        time.sleep(0.2)
+        time.sleep(0.1)
         print(("----"*15).center(40,"-"))
 
 
 def add_elements(table): # add Pits, Wu, Gold, Breeze, Stench, which will build our environment (not known to agent yet)
     print("Filling elements in matrix:-")
     mat[5][0] = "Start"
-    table[0][0], table[3][2], table[3][5], table[5][3] = "Pit","Pit","Pit","Pit"
+    table[0][0], table[3][1], table[3][5], table[5][3] = "Pit","Pit","Pit","Pit"
     table[2][4] = "Wu"
     table[1][3] = "Gold"
 
@@ -155,6 +155,13 @@ def dont_check_in(row, column): # same as above but if it exists dont add to tem
             break
 
 
+def in_path(ele):
+    for i in path.split(sep=" > "):
+        if ele==i:
+            return True
+    return False
+
+
 def print_known_and_unknown(): # if u want to print not known and known list
     print("\n\nKnown: ", known)
     print("\n\nUnnown: ", not_known)
@@ -162,36 +169,56 @@ def print_known_and_unknown(): # if u want to print not known and known list
 
 
 def check_neighbours(table, x, y): # check the neighbours classify them and check their neighbours
+
     global counter
+    global path
     counter += 1
+
     # can be safe(S), wumpus neighbour(WN), pit in neighbour(PN), goal(G)
+
     print("On loop: ", counter, " your environment is: ")
     print_matrix(environment)
     space()
+
     if y > 0:
+
         environment[x][y-1] = classifier(table[x][y-1])
         if environment[x][y-1] == "PN" or environment[x][y-1] == "WN":
             dont_check_in(x,y-1)
         else:
             check_in(x,y-1)
+            if not in_path("S"+str(x)+str(y-1)):
+                path = path + (" > S"+str(x)+str(y-1))
+
     if y < 5:
+
         environment[x][y+1] = classifier(table[x][y+1])
         if environment[x][y+1] == "PN" or environment[x][y+1] == "WN":
             dont_check_in(x,y+1)
         else:
             check_in(x,y+1)
+            if not in_path("S"+str(x)+str(y+1)):
+                path = path + (" > S"+str(x)+str(y+1))
+
     if x > 0:
+
         environment[x-1][y] = classifier(table[x-1][y])
         if environment[x-1][y] == "PN" or environment[x-1][y] == "WN":
             dont_check_in(x-1,y)
         else:
             check_in(x-1,y)
+            if not in_path("S"+str(x-1)+str(y)):
+                path = path + (" > S"+str(x-1)+str(y))
+
     if x < 5:
+
         environment[x+1][y] = classifier(table[x+1][y])
         if environment[x+1][y] == "PN" or environment[x+1][y] == "WN":
             dont_check_in(x+1,y)
         else:
             check_in(x+1,y)
+            if not in_path("S"+str(x+1)+str(y)):
+                path = path + (" > S"+str(x+1)+str(y))
 
     temp.pop(0)
     # print(temp)
@@ -200,7 +227,8 @@ def check_neighbours(table, x, y): # check the neighbours classify them and chec
         
 
 def start():
-    
+    global path
+
     print_matrix(mat)
     space()
     add_elements(mat)
@@ -238,6 +266,8 @@ def start():
         print("No path to gold and no result possible")
     else:
         print("Safe path to goal exists")
+        index = path.index(gold_at)
+        path = path[0:index+3]
 
 # initialise variables
 
@@ -248,9 +278,11 @@ not_known = [] # unknown nodes
 known = [] # known or visited nodes
 temp = [[5,0]] # temp stack that stores next node to visit
 counter = 0
-path = "" # path we need to take to find gold
+gold_at = "S13"
+path = "S50" # path we need to take to find gold
 start()
 
+print(path)
 '''
 The problem is defined as follows:-
 
