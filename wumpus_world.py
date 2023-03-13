@@ -250,3 +250,18 @@ temp = [[5,0]] # temp stack that stores next node to visit
 counter = 0
 path = "" # path we need to take to find gold
 start()
+
+'''
+The problem is defined as follows:-
+
+Recall the Wumpus World discussed. The knowledge base was represented using a matrix that
+stores information about what the agent knows about individual rooms (i.e. the state of each room).
+Actually, you will need two matrices. The first one (call it the environment) stores information about the
+actual facts about the room (i.e. whether it contains a Wumpus, or a pit, or breeze, or stench, or breeze
+and stench, or gold, or nothing). The agent does not have access to this information. The agent has to
+start with no knowledge of the rooms and then, when it reaches a particular room, It can consult the
+environment matrix to find the necessary information and update its own knowledge base. Develop the
+module that will perform the (a) reasoning (b) taking the decision about the next room to be visited.
+Assume that the agent is completely averse to risk taking. So, if it finds that all rooms in NEWS directions
+are unsafe then it will backtrack.
+'''
