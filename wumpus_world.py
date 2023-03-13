@@ -6,7 +6,7 @@ def space(): # space function to clean code output
     print("\n")
     print("____"*15)
     print("\n")
-    time.sleep(0.1)
+    time.sleep(1)
 
 
 def matrix(): # create 6 by 6 matrix
@@ -34,7 +34,7 @@ def print_matrix(table): # print the matrix cleanly
 def add_elements(table): # add Pits, Wu, Gold, Breeze, Stench, which will build our environment (not known to agent yet)
     print("Filling elements in matrix:-")
     mat[5][0] = "Start"
-    table[0][0], table[3][1], table[3][5], table[5][3] = "Pit","Pit","Pit","Pit"
+    table[0][0], table[3][2], table[3][5], table[5][3] = "Pit","Pit","Pit","Pit"
     table[2][4] = "Wu"
     table[1][3] = "Gold"
 
